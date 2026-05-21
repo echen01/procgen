@@ -1,4 +1,4 @@
-**Status:** Maintenance (expect bug fixes and minor updates)
+**Description:** A Procgen fork for compatibility with `gymnasium` and Python 3.11+.
 
 # Procgen Benchmark
 
@@ -24,12 +24,6 @@ Supported platforms:
 - macOS 10.14 (Mojave), 10.15 (Catalina)
 - Linux (manylinux2010)
 
-Supported Pythons:
-
-- 3.7 64-bit
-- 3.8 64-bit
-- 3.9 64-bit
-- 3.10 64-bit
 
 Supported CPUs:
 

@@ -1,13 +1,15 @@
 """
-Example random agent script using the gym API to demonstrate that procgen works
+Example random agent script using the gymnasium API to demonstrate that procgen works
 """
 
-import gym
+import gymnasium as gym
+
 env = gym.make('procgen:procgen-coinrun-v0')
-obs = env.reset()
+obs, info = env.reset()
 step = 0
 while True:
-    obs, rew, done, info = env.step(env.action_space.sample())
+    obs, rew, terminated, truncated, info = env.step(env.action_space.sample())
+    done = terminated or truncated
     print(f"step {step} reward {rew} done {done}")
     step += 1
     if done:
