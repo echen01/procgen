@@ -1,4 +1,4 @@
-**Description:** A Procgen fork for compatibility with `gymnasium` and Python 3.11+.
+**Description:** A Procgen fork for compatibility with `gymnasium` and Python 3.11+.  Updated with Gemini 2.5 Flash. 
 
 # Procgen Benchmark
 
