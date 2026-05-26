@@ -9,9 +9,7 @@ def test_seeding(env_name):
     num_envs = 1
 
     def make_env(level_num):
-        venv = ProcgenGym3Env(
-            num=num_envs, env_name=env_name, num_levels=1, start_level=level_num
-        )
+        venv = ProcgenGym3Env(num=num_envs, env_name=env_name, num_levels=1, start_level=level_num)
         return venv
 
     env1 = make_env(0)
@@ -38,11 +36,7 @@ def test_determinism(env_name):
         _, obs, _ = env.observe()
         obses = [obs["rgb"]]
         for _ in range(128):
-            env.act(
-                rng.randint(
-                    low=0, high=env.ac_space.eltype.n, size=(env.num,), dtype=np.int32
-                )
-            )
+            env.act(rng.randint(low=0, high=env.ac_space.eltype.n, size=(env.num,), dtype=np.int32))
             _, obs, _ = env.observe()
             obses.append(obs["rgb"])
         return np.array(obses)

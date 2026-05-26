@@ -33,9 +33,7 @@ def make_interactive(vision, record_dir, **kwargs):
 
     env = ProcgenGym3Env(num=1, **kwargs)
     if record_dir is not None:
-        env = VideoRecorderWrapper(
-            env=env, directory=record_dir, ob_key=ob_key, info_key=info_key
-        )
+        env = VideoRecorderWrapper(env=env, directory=record_dir, ob_key=ob_key, info_key=info_key)
     h, w, _ = env.ob_space["rgb"].shape
     return ProcgenInteractive(
         env,
@@ -48,9 +46,7 @@ def make_interactive(vision, record_dir, **kwargs):
 
 def main():
     default_str = "(default: %(default)s)"
-    parser = argparse.ArgumentParser(
-        description="Interactive version of Procgen allowing you to play the games"
-    )
+    parser = argparse.ArgumentParser(description="Interactive version of Procgen allowing you to play the games")
     parser.add_argument(
         "--vision",
         default="human",
@@ -69,9 +65,7 @@ def main():
         help="name of game to create " + default_str,
         choices=ENV_NAMES + ["coinrun_old"],
     )
-    parser.add_argument(
-        "--level-seed", type=int, help="select an individual level to use"
-    )
+    parser.add_argument("--level-seed", type=int, help="select an individual level to use")
 
     advanced_group = parser.add_argument_group("advanced optional switch arguments")
     advanced_group.add_argument(
@@ -126,9 +120,7 @@ def main():
     if args.level_seed is not None:
         kwargs["start_level"] = args.level_seed
         kwargs["num_levels"] = 1
-    ia = make_interactive(
-        args.vision, record_dir=args.record_dir, env_name=args.env_name, **kwargs
-    )
+    ia = make_interactive(args.vision, record_dir=args.record_dir, env_name=args.env_name, **kwargs)
     ia.run()
 
 

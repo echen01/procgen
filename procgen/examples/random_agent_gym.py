@@ -4,7 +4,7 @@ Example random agent script using the gymnasium API to demonstrate that procgen 
 
 import gymnasium as gym
 
-env = gym.make('procgen:procgen-coinrun-v0')
+env = gym.make("procgen:procgen-coinrun-v0")
 obs, info = env.reset()
 step = 0
 while True:

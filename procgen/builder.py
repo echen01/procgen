@@ -57,9 +57,7 @@ def _attempt_configure(build_type, package):
         cmake_prefix_paths = ["/usr/local/opt/qt5/lib/cmake"]
         conda_exe = shutil.which("conda")
         if conda_exe is not None:
-            conda_info = json.loads(
-                sp.run(["conda", "info", "--json"], stdout=sp.PIPE).stdout
-            )
+            conda_info = json.loads(sp.run(["conda", "info", "--json"], stdout=sp.PIPE).stdout)
             conda_prefix = conda_info["active_prefix"]
             if conda_prefix is None:
                 conda_prefix = conda_info["conda_prefix"]

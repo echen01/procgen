@@ -9,9 +9,7 @@ import multiprocessing as mp
 NUM_STEPS = 10000
 
 
-def gather_rollouts(
-    env_kwargs, actions, state=None, get_state=False, set_state_every_step=False
-):
+def gather_rollouts(env_kwargs, actions, state=None, get_state=False, set_state_every_step=False):
     env = ProcgenGym3Env(**env_kwargs)
     if state is not None:
         env.callmethod("set_state", state)
@@ -38,9 +36,7 @@ def fn_wrapper(fn, result_queue, **kwargs):
 def run_in_subproc(fn, **kwargs):
     ctx = mp.get_context("spawn")
     result_queue = ctx.Queue()
-    p = ctx.Process(
-        target=fn_wrapper, kwargs=dict(fn=fn, result_queue=result_queue, **kwargs)
-    )
+    p = ctx.Process(target=fn_wrapper, kwargs=dict(fn=fn, result_queue=result_queue, **kwargs))
     p.start()
     result = result_queue.get()
     p.join()
@@ -72,31 +68,20 @@ def run_state_test(env_name):
     env_kwargs = dict(num=2, env_name=env_name, rand_seed=0)
     env = ProcgenGym3Env(**env_kwargs)
     rng = np.random.RandomState(0)
-    actions = [
-        gym3.types_np.sample(env.ac_space, bshape=(env.num,), rng=rng)
-        for _ in range(NUM_STEPS)
-    ]
-    ref_rollouts = run_in_subproc(
-        gather_rollouts, env_kwargs=env_kwargs, actions=actions
-    )
+    actions = [gym3.types_np.sample(env.ac_space, bshape=(env.num,), rng=rng) for _ in range(NUM_STEPS)]
+    ref_rollouts = run_in_subproc(gather_rollouts, env_kwargs=env_kwargs, actions=actions)
     assert len(ref_rollouts) == NUM_STEPS + 1
 
     # run the same thing a second time
-    basic_rollouts = run_in_subproc(
-        gather_rollouts, env_kwargs=env_kwargs, actions=actions
-    )
+    basic_rollouts = run_in_subproc(gather_rollouts, env_kwargs=env_kwargs, actions=actions)
     assert_rollouts_identical(ref_rollouts, basic_rollouts)
 
     # run but save states
-    state_rollouts = run_in_subproc(
-        gather_rollouts, env_kwargs=env_kwargs, actions=actions, get_state=True
-    )
+    state_rollouts = run_in_subproc(gather_rollouts, env_kwargs=env_kwargs, actions=actions, get_state=True)
     assert_rollouts_identical(ref_rollouts, state_rollouts)
 
     # make sure states are the same
-    state_rollouts_2 = run_in_subproc(
-        gather_rollouts, env_kwargs=env_kwargs, actions=actions, get_state=True
-    )
+    state_rollouts_2 = run_in_subproc(gather_rollouts, env_kwargs=env_kwargs, actions=actions, get_state=True)
     assert_rollouts_identical(ref_rollouts, state_rollouts_2)
     assert_rollouts_identical(state_rollouts, state_rollouts_2)
 
